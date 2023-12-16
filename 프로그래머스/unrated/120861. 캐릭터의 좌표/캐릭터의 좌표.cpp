@@ -1,0 +1,35 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<string> keyinput, vector<int> board) {
+    vector<int> answer;
+    answer.push_back(0);
+    answer.push_back(0);
+    for(auto x : keyinput)
+    {
+        if(x == "left")
+        {
+            answer[0]--;
+            if(answer[0] < -board[0]/2)
+                answer[0]++;
+        }else if(x == "right")
+        {
+            answer[0]++;
+            if(answer[0] > board[0]/2)
+                answer[0]--;
+        }else if(x == "up")
+        {
+            answer[1]++;
+            if(answer[1] > board[1]/2)
+                answer[1]--;
+        }else
+        {
+            answer[1]--;
+            if(answer[1] < -board[1]/2)
+                answer[1]++;
+        }
+    }
+    return answer;
+}
