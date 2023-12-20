@@ -12,8 +12,10 @@ int main() {
     cin >> n >> str;
     for (int i = 0; i < str.size(); i++) {
         long long a = str[i] - 'a' + 1;
-        a = a * pow(31, i);
-        a %= 1234567891;
+        for (int j = 0; j < i; j++) {
+            a = a * 31;
+            a %= 1234567891;
+        }
         answer += a;
         answer %= 1234567891;
     }
