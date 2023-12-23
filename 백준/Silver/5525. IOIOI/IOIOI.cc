@@ -18,7 +18,16 @@ int main() {
     while (str.find(s) != string::npos) {
         answer++;
         size_t idx = str.find(s);
-        str = str.substr(idx + 2, m);
+        while (1) {
+            if (str[idx + 2 * n + 1] == 'O' && str[idx + 2 * n + 2] == 'I') {
+                idx += 2;
+                answer++;
+            }
+            else {
+                str = str.substr(idx + 2 * n + 1, m);
+                break;
+            }
+        }
     }
     cout << answer;
     return 0;
