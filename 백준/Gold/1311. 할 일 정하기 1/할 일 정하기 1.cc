@@ -9,7 +9,7 @@ using namespace std;
 int n;
 int arr[20][20];
 int dp[20][1 << 20];
-int dfs(int cur, int visit) {
+int dfs(int cur, int node, int visit) {
     if (visit == (1 << n) - 1) {
         return 0;
     }
@@ -21,7 +21,7 @@ int dfs(int cur, int visit) {
     for (int i = 0; i < n; i++) {
         if ((visit & (1 << i)) == (1 << i))
             continue;
-        dp[cur][visit] = min(dp[cur][visit], arr[cur][i] + dfs(cur + 1, visit | (1 << i)));
+        dp[cur][visit] = min(dp[cur][visit], arr[cur][i] + dfs(cur+1, i, visit | (1 << i)));
     }
     return dp[cur][visit];
 
@@ -38,6 +38,6 @@ int main()
             cin >> arr[i][j];
         }
     }
-    cout << dfs(0, 0);
+    cout << dfs(0, 0,0);
     return 0;
 }
