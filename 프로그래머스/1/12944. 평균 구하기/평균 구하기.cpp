@@ -5,9 +5,9 @@ using namespace std;
 
 double solution(vector<int> arr) {
     double answer = 0;
-    for(auto x: arr)
-    {
-        answer += x;
+    for(auto i : arr){
+        answer += i;
     }
-    return answer/arr.size();
+    answer /= arr.size();
+    return answer;
 }
