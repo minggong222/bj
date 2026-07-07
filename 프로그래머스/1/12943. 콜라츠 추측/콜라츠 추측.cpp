@@ -4,22 +4,11 @@
 using namespace std;
 
 int solution(int num) {
-    int answer = 0;
-    long num2 = num;
-    if(num == 1)
-        return 0;
-    while(1)
-    {
-        if(num2%2 == 0)
-        {
-            num2 = num2/2;
-            answer++;
-        }else{
-            num2 = num2*3 +1;
-            answer++;
-        }
-        if(answer == 500) return -1;
-        if(num2 == 1)
-             return answer;
+    int answer = -1;
+    for(int i = 0; i < 500; i++){
+        if(num == 1)    return i;
+        if(num%2 == 1) num=num*3+1;
+        else num=num/2;
     }
+    return answer;
 }
