@@ -4,29 +4,22 @@
 using namespace std;
 
 int solution(int n) {
-    int answer = 1;
-    int j = 1;
-    if(n == 1)
-        return 1;
-    while(1)
-    {
-        int a = 0;
-        for(int i = j; i <= n; i++)
-        {
-            a += i;
-            if(a == n)
-            {
-                answer++;
-                j++;
-                break;
-            }else if(a > n)
-            {
-                j++;
-                break;
-            }
+    int answer = 0;
+    int start = 1;
+    int end = 1;
+    int sum = 1;
+    while(end <= n){
+        if(sum < n){
+            end++;
+            sum += end;
+        }else if(sum > n){
+            sum -= start;
+            start++;
+        }else{
+            answer++;
+            sum -= start;
+            start++;
         }
-        if(j >= n/2+1)
-            break;
     }
     return answer;
 }
