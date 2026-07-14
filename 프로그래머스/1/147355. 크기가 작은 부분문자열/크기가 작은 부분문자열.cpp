@@ -5,17 +5,11 @@ using namespace std;
 
 int solution(string t, string p) {
     int answer = 0;
-    for(int i = 0; i <= t.size() - p.size();i++)
-    {
-        string a = "";
-        for(int j = 0; j < p.size(); j++)
-        {
-            a.push_back(t[i+j]);
-        }
-        long z = stol(a);
-        long x = stol(p);
-        if(z <= x )
-            answer++;
+    string str = t.substr(0, p.size());
+    if(stoll(str) <= stoll(p))   answer++;
+    for(int i = p.size(); i < t.size(); i++){
+        str = str.substr(1) + t[i];
+        if(stoll(str) <= stoll(p))   answer++;
     }
     return answer;
 }
