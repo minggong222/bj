@@ -5,28 +5,16 @@ using namespace std;
 
 string solution(string s, int n) {
     string answer = "";
-    int a;
-    for(int i = 0 ; i < s.size();i++)
-    {
-        if(s[i] != ' ')
-        {
-            a = s[i];
-            if((a >64 && a < 91))
-            {
-                if(a+n < 91)
-                    answer.push_back(a+n);
-                else
-                    answer.push_back(a+n-26);
-            }
-            else{
-                if(a+n < 123)
-                    answer.push_back(a+n);
-                else
-                    answer.push_back(a+n-26);
-            }
-        }else{
-            answer.push_back(' ');
+    for(auto c : s){
+        char a = c;
+        if(isupper(a)){
+            if(a + n > 'Z') a = a + n - 26;
+            else a = a + n;
+        }else if(islower(a)){
+            if(a + n > 'z') a = a + n - 26;
+            else a = a + n;
         }
+        answer += a;
     }
     return answer;
 }
