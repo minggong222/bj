@@ -1,22 +1,22 @@
 #include <iostream>
-#include<string>
+#include <string>
 #include <stack>
 using namespace std;
 
 int solution(string s)
 {
-    stack<char> q;
-    for(const auto& c : s)
-    {
-        if(!q.empty())
-        {
-            if(q.top() == c)
-                q.pop();
-            else
-                q.push(c);
+    int answer = -1;
+    stack<char> x;
+    for(auto c : s){
+        if(x.empty()){
+            x.push(c);
         }else{
-            q.push(c);
+            if(x.top() == c)
+                x.pop();
+            else
+                x.push(c);
         }
     }
-    return q.empty() ? 1 : 0;
+
+    return x.empty();
 }
