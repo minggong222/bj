@@ -1,21 +1,18 @@
 #include <string>
 #include <vector>
-
+#include <map>
 using namespace std;
 
 vector<int> solution(string s) {
-    vector<int> answer(s.size(), -1);
-    for(int i = 0; i < s.size(); i++)
-    {
-        if(s[i] == 0)
-            answer[i] = -1;
-        else
-        {
-            for(int j = i + 1; j < s.size(); j++)
-            {
-                if(s[i] == s[j])
-                    answer[j] = j-i;
-            }
+    vector<int> answer;
+    map<char, int> m;
+    for(int i = 0; i < s.size(); i++){
+        if(m.find(s[i]) == m.end()){
+            answer.push_back(-1);
+            m[s[i]] = i;
+        }else{
+            answer.push_back(i - m[s[i]]);
+            m[s[i]] = i;
         }
     }
     return answer;
