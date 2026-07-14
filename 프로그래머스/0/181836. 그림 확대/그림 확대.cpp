@@ -12,6 +12,7 @@ vector<string> solution(vector<string> picture, int k) {
                 str += c;
             }
         }
+        
         for(int i = 0; i < k; i++){
             answer.push_back(str);
         }
