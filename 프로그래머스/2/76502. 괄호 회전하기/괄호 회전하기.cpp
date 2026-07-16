@@ -1,31 +1,50 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <queue>
+#include <iostream>
 using namespace std;
 
 int solution(string s) {
     int answer = 0;
-    stack<char> q;
-    int a = s.size();
-    for(int i = 0; i < a; i++)
-    {
-        for(int j = 0; j < a; j++)
-        {
-            if(!q.empty())
-            {
-                if(q.top() + 2 == s[j] || q.top() + 1 == s[j])
-                    q.pop();
-                else
-                    q.push(s[j]);
+    queue<char> q;
+    for(auto c : s) {
+        q.push(c);
+    }
+    for(int i = 0; i < s.size(); i++){
+        stack<char> y;
+        queue<char> x = q;
+        while(!x.empty()){
+            if(y.empty()){
+                y.push(x.front());
             }else{
-                q.push(s[j]);
+                switch(y.top()){
+                    case '[':
+                        if(x.front() == ']')
+                            y.pop();
+                        else
+                            y.push(x.front());
+                        break;
+                    case '{':
+                        if(x.front() == '}')
+                            y.pop();
+                        else
+                            y.push(x.front());
+                        break;
+                    case '(':
+                        if(x.front() == ')')
+                            y.pop();
+                        else
+                            y.push(x.front());
+                        break;
+                }
             }
+            x.pop();
         }
-        if(q.empty())
+        if(y.empty())
             answer++;
-        while( !q.empty() ) q.pop();
-        s.push_back(s[0]);
-        s.erase(s.begin());
+        q.push(q.front());
+        q.pop();
     }
     return answer;
 }
