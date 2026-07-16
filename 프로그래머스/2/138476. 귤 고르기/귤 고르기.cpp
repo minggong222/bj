@@ -3,26 +3,22 @@
 #include <map>
 #include <algorithm>
 using namespace std;
-bool cmp(pair<int, int>& a, pair<int, int>& b)
-{
-    return a.second > b.second;
-}
+
 int solution(int k, vector<int> tangerine) {
-    int answer = 1;
+    int answer = 0;
     map<int, int> m;
-    for(int i = 0 ; i < tangerine.size() ; i++)
-    {
-        m[tangerine[i]]++;
+    for(auto x : tangerine){
+        m[x]++;
     }
-    vector<pair<int,  int>> v(m.begin(), m.end());
-    sort(v.begin(), v.end(), cmp);
-    for(int i = 0 ; i < v.size() ; i++)
-    {
-        if(k - v[i].second > 0)
-            answer++;
-        else
-            return answer;
-        k = k - v[i].second;
+    vector<int> v;
+    for(auto iter = m.begin(); iter != m.end(); iter++){
+        v.push_back(iter->second);
+    }
+    sort(v.rbegin(), v.rend());
+    for(int i = 0; i < v.size(); i++){
+        k -= v[i];
+        answer++;
+        if(k <= 0)  break;
     }
     return answer;
 }
