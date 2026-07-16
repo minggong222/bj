@@ -1,17 +1,14 @@
-#include <iostream>
 #include <vector>
-#include <algorithm>
+#include <set>
 using namespace std;
 
 int solution(vector<int> nums)
 {
-    int answer = nums.size()/2;
-    sort(nums.begin(),nums.end());
-    nums.erase(unique(nums.begin(),nums.end()),nums.end());
-    if(nums.size() >= answer)
-        return answer;
-    else{
-        return nums.size();
+    int answer = 0;
+    set<int> s;
+    for(auto x : nums){
+        s.insert(x);
     }
+    s.size() > nums.size()/2 ? answer = nums.size()/2 : answer = s.size();
     return answer;
 }
