@@ -1,32 +1,20 @@
 #include <string>
 #include <vector>
-#include <cmath>
+#include <algorithm>
 using namespace std;
-int needEnergy[8];
-int useEnergy[8];
-bool check[8]={false,};
-int num;
-int result=0;
 
-void dfs(int cnt, int remain){
-    for(int i=0;i<num;i++){
-        if(!check[i] && needEnergy[i]<=remain){
-            check[i]=true;
-            dfs(cnt+1,remain-useEnergy[i]);
-            check[i]=false;
-        }
+int f(int k, vector<vector<int>> v, vector<bool> visit, int cnt){
+    int m = cnt;
+    for(int i = 0; i < v.size(); i++){
+        if(visit[i] || k < v[i][0]) continue;
+        visit[i] = true;
+        m = max(m, f(k-v[i][1], v, visit, cnt+1));
+        visit[i] = false;
     }
-    result = max(result,cnt);
-    return;
+    return m;
 }
-
 int solution(int k, vector<vector<int>> dungeons) {
     int answer = -1;
-    num = dungeons.size();
-    for(int i=0;i<num;i++){
-        needEnergy[i] = dungeons[i][0];
-        useEnergy[i] = dungeons[i][1];
-    }
-    dfs(0,k);
-    return answer = result;
+    vector<bool> visit(dungeons.size(), false);
+    return f(k, dungeons, visit, 0);
 }
