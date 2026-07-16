@@ -1,44 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <queue>
+#include <iostream>
 using namespace std;
 
 int solution(vector<int> people, int limit) {
     int answer = 0;
-    sort(people.begin(),people.end());
-    int len;
-    int j = people.size() - 1;
-    int i =0;
-    while(1)
-    {
-        if(people[0]*2 > limit)
-        {
-            return answer + people.size();
-        }
-        if(people.back()*2 <= limit)
-        {
-            if(people.size()%2 ==0)
-                return answer + people.size()/2;
-            else
-                return answer + people.size()/2 +1;
-        }
-        if(people[i] + people[j] > limit)
-        {
+    priority_queue<int> pq1,pq2;
+    for(auto a : people){
+        pq1.push(a);
+        pq2.push(-a);
+    }
+    int cnt = people.size();
+    while(cnt > 0){
+        if(pq1.top() + (-pq2.top()) <= limit){
+            pq1.pop();
+            pq2.pop();
+            cnt -= 2;
             answer++;
-            j--;
         }else{
+            pq1.pop();
+            cnt--;
             answer++;
-            i++;
-            j--;
-        }
-        len = people.size();
-        if(i > j)
-        {
-            break;
-        }else if(i == j)
-        {
-            answer++;
-            break;
         }
     }
     return answer;
