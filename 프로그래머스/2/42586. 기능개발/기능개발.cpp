@@ -1,30 +1,31 @@
 #include <string>
 #include <vector>
-
+#include <queue>
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
     vector<int> answer;
-    int i = 1;
-    int x = 0;
-    int a = 0;
-    while(1)
-    {
-        if(progresses.size() == x)
-        {
-            answer.push_back(a);
-            break;
-        }
-        if(progresses[x]+speeds[x]*i >= 100)
-        {
-            a++;
-            x++;
-        }else if(a == 0){
-            i++;
+    queue<pair<int, int>> q;
+    for(int i = 0; i < progresses.size(); i++){
+        q.push({progresses[i], speeds[i]});
+    }
+    int day = 1;
+    int cnt = 0;
+    while(!q.empty()){
+        if(q.front().first + q.front().second*day >= 100){
+            q.pop();
+            cnt++;
         }else{
-            answer.push_back(a);
-            a = 0;
+            if(cnt > 0){
+                answer.push_back(cnt);
+                cnt = 0;
+            }
+            day++;
         }
+    }
+    if(cnt > 0){
+        answer.push_back(cnt);
+        cnt = 0;
     }
     return answer;
 }
