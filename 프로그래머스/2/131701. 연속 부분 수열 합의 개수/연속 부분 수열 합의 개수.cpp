@@ -1,24 +1,26 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <queue>
+#include <set>
 using namespace std;
 
 int solution(vector<int> elements) {
-    vector<int> answer;
-    int z = elements.size();
-    for(int i = 1; i < z; i++)
-    {
-        for(int j = 0; j < z; j++)
-        {
-            int sum = 0;
-            for(int k = 0; k < i; k++)
-            {
-                sum += elements[(k+j)%z];
-            }
-            answer.push_back(sum);
-        }
+    int answer = 0;
+    queue<int> q;
+    set<int> s;
+    for(auto x : elements){
+        q.push(x);
     }
-    sort(answer.begin(), answer.end());
-    answer.erase(unique(answer.begin(),answer.end()),answer.end());
-    return answer.size()+1;
+    for(int i = 0; i < elements.size(); i++){
+        int sum = 0;
+        for(int j = 0; j < elements.size(); j++){
+            sum += q.front();
+            q.push(q.front());
+            q.pop();
+            s.insert(sum);
+        }
+        q.push(q.front());
+        q.pop();
+    }
+    return s.size();
 }
