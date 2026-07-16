@@ -1,26 +1,21 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <set>
 using namespace std;
 
 int solution(vector<int> topping) {
     int answer = 0;
-    map<int, int> m;
-    set<int> s;
-    int cnt = 0;
-    for(int i = 0; i < topping.size(); i++){
-        m[topping[i]]++;
+    map<int,int> l,r;
+    for(auto x : topping){
+        r[x]++;
     }
-    cnt = m.size();
-    for(int i = 0; i < topping.size(); i++){
-        s.insert(topping[i]);
-        if(!(--m[topping[i]])){
-            cnt--;
-        }
-        if(s.size() == cnt){
+    for(auto x : topping){
+        r[x]--;
+        if(r[x] == 0)
+            r.erase(x);
+        l[x]++;
+        if(r.size() == l.size())
             answer++;
-        }
     }
     return answer;
 }
