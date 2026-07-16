@@ -1,63 +1,38 @@
 #include <string>
 #include <vector>
-
+#include <map>
 using namespace std;
 
 string solution(int a, int b) {
     string answer = "";
+    vector<string> v = {"THU","FRI","SAT","SUN","MON","TUE","WED"};
+    int day = 0;
     switch(a){
-        case 1:
-            break;
-        case 2:
-            b = b + 31;
-            break;
-        case 3:
-            b = b + 60;
-            break;
-        case 4:
-            b = b + 91;
-            break;
-        case 5:
-            b = b + 121;
-            break;
-        case 6:
-            b = b + 152;
-            break;
-        case 7:
-            b = b + 182;
-            break;
-        case 8:
-            b = b + 213;
-            break;
-        case 9:
-            b = b + 244;
-            break;
-        case 10:
-            b = b + 274;
-            break;
-        case 11:
-            b = b + 305;
-            break;
         case 12:
-            b = b + 335;
-            break;
-    }
-    switch(b%7)
-    {
-        case 1:
-            return "FRI";
-        case 2:
-            return "SAT";
-        case 3:
-            return "SUN";
-        case 4:
-            return "MON";
-        case 5:
-            return "TUE";
+            day += 30;
+        case 11:
+            day += 31;
+        case 10:
+            day += 30;
+        case 9:
+            day += 31;
+        case 8:
+            day += 31;
+        case 7:
+            day += 30;
         case 6:
-            return "WED";
-        case 0:
-            return "THU";
+            day += 31;
+        case 5:
+            day += 30;
+        case 4:
+            day += 31;
+        case 3:
+            day += 29;
+        case 2:
+            day += 31;
+        case 1:
     }
-    return answer;
+    day += b;
+    
+    return v[day%7];
 }
