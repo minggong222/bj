@@ -1,16 +1,19 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+
 using namespace std;
-bool cmp(int a, int b)
-{ return a > b ;}
+
 int solution(vector<int> citations) {
     int answer = 0;
-    sort(citations.begin(), citations.end(), cmp);
-    for(int i = 0; i < citations.size(); i++)
-    {
-        if(i >= citations[i])
+    for(int i = 10000; i >= 0; i--){
+        int cnt = 0;
+        for(int j = 0; j < citations.size(); j++){
+            if(citations[j] >= i){
+                cnt++;
+            }
+        }
+        if(cnt >= i && citations.size()-cnt <= i)
             return i;
     }
-    return citations.size();
+    return answer;
 }
