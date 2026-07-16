@@ -1,24 +1,16 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 long long solution(int n) {
-    long long n1 = 1;
-    long long n2 = 2;
-    long long n3 = 3;
-    int i = 2;
     long long answer = 0;
-    if(n == 1)
-        return 1;
-    else if(n == 2)
-        return 2;
-    while(1)
-    {
-        n3 = (n1 + n2)%1234567;
-        n1 = n2%1234567;
-        n2 = n3%1234567;
-        i++;
-        if(n == i)
-            break;
+    long long dp[2001];
+    dp[0] = 1;
+    dp[1] = 1;
+    for(int i = 2; i <= 2000; i++){
+        dp[i] = dp[i-2] + dp[i-1];
+        dp[i] %= 1234567;
     }
-    return n3;
+    return dp[n];
 }
