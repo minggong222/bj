@@ -2,23 +2,20 @@
 #include <vector>
 
 using namespace std;
-int Div(int a, int b)
-{
-    for(int i = a; i > 0; i--)
-    {
-        if(a%i ==0 && b%i ==0)
-            return i;
+
+int gcd(int a, int b){
+    while(b != 0){
+        int r = b;
+        b = a % b;
+        a = r;
     }
+    return a;
 }
-int Mul(int a, int b)
-{
-    return a*b/Div(a,b);
-}
+
 int solution(vector<int> arr) {
     int answer = arr[0];
-    for(int i = 1; i < arr.size(); i++)
-    {
-        answer = Mul(answer,arr[i]);
+    for(int i = 1; i < arr.size(); i++){
+        answer = (answer * arr[i]) / gcd(answer, arr[i]);
     }
     return answer;
 }
