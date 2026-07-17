@@ -1,34 +1,31 @@
-#include<queue>
 #include<vector>
+#include <queue>
+#include <iostream>
 using namespace std;
 
 int solution(vector<vector<int> > maps)
 {
     int answer = 0;
-    int asd[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
-    queue<pair<int,int>> q;
-    q.push(pair<int,int>(0,0));
-    vector<vector<int>> v(100, vector<int>(100, 100000));
-    v[0][0] = 1;
+    vector<vector<int>> v(maps.size(),vector<int>(maps[0].size(),1234567890));
+    queue<pair<pair<int,int>, int>> q;
+    vector<vector<int>> d = {{1,0},{-1,0},{0,1},{0,-1}};
+    q.push({{0,0},1});
     while(!q.empty()){
-        int x = q.front().first;
-        int y = q.front().second;
+        int x = q.front().first.first;
+        int y = q.front().first.second;
+        int cost = q.front().second;
         q.pop();
+        if(v[x][y] <= cost) continue;
+        v[x][y] = cost;
         for(int i = 0; i < 4; i++){
-            int nx = x + asd[i][0];
-            int ny = y + asd[i][1];
-            if(nx < 0 || nx >= maps.size() || ny < 0 || ny >= maps[0].size())
-                continue;
-            if(maps[nx][ny] && v[nx][ny] > v[x][y] + 1){
-                q.push({nx,ny});
-                v[nx][ny] = v[x][y] + 1;
+            int nx = x+d[i][0];
+            int ny = y+d[i][1];
+            if(nx >= 0 && nx < maps.size() &&
+               ny >= 0 && ny < maps[0].size() && maps[nx][ny] == 1){
+                q.push({{nx,ny},cost+1});
             }
         }
     }
-    
     answer = v[maps.size()-1][maps[0].size()-1];
-    if(answer == 100000)
-        return -1;
-    else
-        return answer;
+    return answer == 1234567890 ? -1 : answer;
 }
