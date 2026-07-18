@@ -1,31 +1,26 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <queue>
 using namespace std;
 
-int answer;
-void dfs(const vector<int>& numbers, const int& target, int index, int sum, bool sign)
-{
-    if(sign)
-        sum += numbers[index++];
-    else
-        sum -= numbers[index++];
-    if(numbers.size() != index)
-    {
-        dfs(numbers, target, index, sum, true);
-        dfs(numbers, target, index, sum, false);
-    }
-    else
-    {
-        if(sum == target)
-            ++answer;
-    }
-}
-
 int solution(vector<int> numbers, int target) {
-    answer = 0;
-    int sum = 0;
-    dfs(numbers, target, 0, sum, true);
-    dfs(numbers, target, 0, sum, false);
+    int answer = 0;
+    queue<pair<int,int>> q;
+    q.push({numbers[0], 1});
+    q.push({-numbers[0], 1});
+
+    while(!q.empty()){
+        int x = q.front().first;
+        int idx = q.front().second;
+        q.pop();
+        if(idx == numbers.size()){
+            if(x == target){
+                answer++;
+            }
+        }else{
+            q.push({x+numbers[idx], idx+1});
+            q.push({x-numbers[idx], idx+1});
+        }
+    }
     return answer;
 }
