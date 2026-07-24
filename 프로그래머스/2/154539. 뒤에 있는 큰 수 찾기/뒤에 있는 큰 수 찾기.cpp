@@ -1,30 +1,21 @@
 #include <string>
 #include <vector>
 #include <stack>
-
 using namespace std;
 
 vector<int> solution(vector<int> numbers) {
-    stack<pair<int,int>> q;
-    vector<int> answer(numbers.size());
-    int idx = 0;
-    while(idx < numbers.size()){
-        while(!q.empty()){
-            if(q.top().first < numbers[idx]){
-                int i = q.top().second;
-                q.pop();
-                answer[i] = numbers[idx];
+    vector<int> answer(numbers.size(), -1);
+    stack<pair<int,int>> s;
+    for(int i = 0; i < numbers.size(); i++){
+        while(!s.empty()){
+            if(s.top().first < numbers[i]){
+                answer[s.top().second] = numbers[i];
+                s.pop();
             }else{
                 break;
             }
         }
-        q.push({numbers[idx],idx});
-        idx++;
-    }
-    while(!q.empty()){
-        int i = q.top().second;
-        q.pop();
-        answer[i] = -1;
+        s.push({numbers[i], i});
     }
     return answer;
 }
