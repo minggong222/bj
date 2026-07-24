@@ -5,56 +5,47 @@ using namespace std;
 
 int solution(vector<string> babbling) {
     int answer = 0;
-    string a = "";
-    for(auto x: babbling)
-    {
-        a = "";
-        for(int i = 0; i < x.size(); i++)
-        {
-            switch(x[i]){
-                case 'a':
-                    if(i + 2 < x.size() && x[i + 1] == 'y' && x[i + 2] == 'a' && a != "aya")
-                    {
-                        a = "aya";
-                        i = i + 2;
-                    }
-                    else
-                        i = x.size();
+    for(int i = 0; i < babbling.size(); i++){
+        int j;
+        string b = "";
+        for(j = 0; j < babbling[i].size();){
+            if(babbling[i][j] == 'a'){
+                if(j+2 < babbling[i].size() &&
+                  babbling[i][j+1] == 'y' &&
+                  babbling[i][j+2] == 'a' &&
+                  b != "aya"){
+                    j+=3;
+                    b = "aya";
+                }else
                     break;
-                case 'y':
-                    if(i + 1 < x.size() && x[i + 1] == 'e' && a != "ye")
-                    {
-                        a = "ye";
-                        i = i + 1;
-                    }
-                    else
-                        i = x.size();
+            }else if(babbling[i][j] == 'y'){
+                if(j+1 < babbling[i].size() &&
+                  babbling[i][j+1] == 'e' &&
+                  b != "ye"){
+                    j+=2;
+                    b = "ye";
+                }else
                     break;
-                case 'w':
-                    if(i + 2 < x.size() && x[i + 1] == 'o' && x[i + 2] == 'o' && a != "woo")
-                    {
-                        a = "woo";
-                        i = i + 2;
-                    }
-                    else
-                        i = x.size();
+            }else if(babbling[i][j] == 'w'){
+                if(j+2 < babbling[i].size() &&
+                  babbling[i][j+1] == 'o' &&
+                  babbling[i][j+2] == 'o' &&
+                  b != "woo"){
+                    j+=3;
+                    b = "woo";
+                }else
                     break;
-                case 'm':
-                    if(i + 1 < x.size() && x[i + 1] == 'a' && a != "ma")
-                    {
-                        a = "ma";
-                        i = i + 1;
-                    }
-                    else
-                        i = x.size();
+            }else if(babbling[i][j] == 'm'){
+                if(j+1 < babbling[i].size() &&
+                  babbling[i][j+1] == 'a' &&
+                  b != "ma"){
+                    j+=2;
+                    b = "ma";
+                }else
                     break;
-                default:
-                    i = x.size();
-                    break;
-            }
-            if(i == x.size()-1)
-                    answer++;
+            }else   break;
         }
+        if(j == babbling[i].size()) answer++;
     }
     return answer;
 }
