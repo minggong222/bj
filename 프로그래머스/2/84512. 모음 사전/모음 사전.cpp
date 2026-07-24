@@ -1,27 +1,28 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <queue>
 using namespace std;
-vector<string> v;
-void asd(string s, int i){
-    if(i < 5){
-        asd(s + "A", i+1);
-        asd(s + "E", i+1);
-        asd(s + "I", i+1);
-        asd(s + "O", i+1);
-        asd(s + "U", i+1);
-        v.push_back(s + "A");
-        v.push_back(s + "E");
-        v.push_back(s + "I");
-        v.push_back(s + "O");
-        v.push_back(s + "U");
-    }
-    return;
+int answer;
+bool dfs(string s, string word){
+    answer++;
+    bool sw = false;
+    if(s == word)
+        return true;
+    if(s.size() == 5)   return false;
+    sw = dfs(s+"A", word);
+    if(sw)  return true;
+    sw = dfs(s+"E", word);
+    if(sw)  return true;
+    sw = dfs(s+"I", word);
+    if(sw)  return true;
+    sw = dfs(s+"O", word);
+    if(sw)  return true;
+    sw = dfs(s+"U", word);
+    if(sw)  return true;
+    return false;
 }
 int solution(string word) {
-    int answer = 1;
-    asd("", 0);
-    sort(v.begin(), v.end());
-    answer += find(v.begin(), v.end(), word) - v.begin();
+    answer = -1;
+    dfs("", word);
     return answer;
 }
