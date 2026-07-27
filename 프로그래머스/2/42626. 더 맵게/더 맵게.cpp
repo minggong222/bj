@@ -1,26 +1,25 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <queue>
-#include <functional>
 using namespace std;
 
 int solution(vector<int> scoville, int K) {
     int answer = 0;
-    priority_queue<int, vector<int>, greater<int>> pq;
+    priority_queue<long long> pq;
     for(auto x : scoville){
-        pq.push(x);
+        pq.push(-x);
     }
-    int a;
-    while(pq.top() < K){
-        a = pq.top();
+    while(!pq.empty()){
+        if(-pq.top() >= K){
+            return answer;
+        }
+        if(pq.size() < 2)   break;
+        long long a = -pq.top();
         pq.pop();
-        if(pq.empty())
-            return -1;
-        a = a + pq.top()*2;
+        long long b = -pq.top();
         pq.pop();
-        pq.push(a);
+        pq.push(-(a+b*2));
         answer++;
     }
-    return answer;
+    return -1;
 }
