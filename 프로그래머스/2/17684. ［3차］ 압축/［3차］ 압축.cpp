@@ -1,30 +1,29 @@
 #include <string>
-#include <iostream>
 #include <vector>
-#include <algorithm>
-
+#include <map>
 using namespace std;
-vector<string> a = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+
 vector<int> solution(string msg) {
     vector<int> answer;
-    for(int i = 0; i < msg.size(); i++)
-    {
-        string x = "";
-        x += msg[i];
-        while(1)
-        {
-            if(find(a.begin(), a.end(), x) != a.end())
-            {
-                i++;
-                x += msg[i];
-            }else{
-                a.push_back(x);
-                x.pop_back();
-                answer.push_back(find(a.begin(), a.end(), x)-a.begin() + 1);
-                i--;
-                break;
-            }
+    map<string, int> m;
+    int idx = 1;
+    for(int i = 0; i < 26; i++){
+        string s = "";
+        s += 'A'+i;
+        m[s] = idx++;
+    }
+    string s = "";
+    for(int i = 0; i < msg.size(); i++){
+        s += msg[i];
+        if(m.find(s) == m.end()){
+            m[s] = idx++;
+            answer.push_back(m[s.substr(0,s.size()-1)]);
+            i--;
+            s.clear();
         }
+    }
+    if(s != ""){
+        answer.push_back(m[s]);
     }
     return answer;
 }
