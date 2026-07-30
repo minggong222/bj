@@ -1,29 +1,29 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <iostream>
 using namespace std;
-char q[16] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-string Trans(int a, int n)
-{
-    string s ="";
-    if(a < n)
-    {
-        s = q[a];
-        return s;
-    }else{
-        s = q[a%n];
-        a = a/n;
-        return Trans(a,n) + s;
-    }
-}
+
 string solution(int n, int t, int m, int p) {
     string answer = "";
-    string answer2 = "";
-    for(int i = 0; answer.size() <= t*m; i++)
-        answer += Trans(i,n);
-    for(int i = 0; i < t; i++)
-    {
-        answer2 += answer[i*m+p - 1];
+    string str = "0";
+    int cnt = t*m;
+    for(int i = 1; str.size() <= t*m; i++){
+        string s = "";
+        int idx = i;
+        while(idx){
+            if(idx%n >= 10){
+                s += ('A'+(idx%n-10));
+            }else
+                s += to_string(idx%n);
+            idx/=n;
+        }
+        reverse(s.begin(),s.end());
+        str += s;
     }
-    return answer2;
+    p--;
+    for(int i = 0; i < t; i++){
+        answer += str[i*m+p];
+    }
+    return answer;
 }
