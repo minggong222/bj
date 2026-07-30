@@ -1,42 +1,37 @@
 #include <string>
 #include <vector>
-#include <utility>
+#include <map>
 #include <algorithm>
 using namespace std;
-bool cmp(vector<double> a, vector<double> b)
-{
-    if(a[0] == b[0])
-        return (a[1] < b[1]);
-    return(a[0] > b[0]);
+bool cmd(pair<double, int> a, pair<double, int> b){
+    if(a.first == b.first)
+        return a.second < b.second;
+    return a.first > b.first;
 }
 vector<int> solution(int N, vector<int> stages) {
-        vector<vector<double>> answer(N);
-        vector<int> answer2;
-    for (int i = 0; i < N; i++)
-    {
-        int a = 0, b = 0;
-        for (auto x : stages)
-        {
-            if (i + 1 <= x)
-            {
-                a++;
-                if (i + 1 == x)
-                    b++;
-            }
-        }
-        if(a != 0)
-        {
-            answer[i].push_back((double)b/a);
-            answer[i].push_back(i+1);
-        }else{
-            answer[i].push_back(0);
-            answer[i].push_back(i+1);
-        }
+    vector<int> answer;
+    vector<pair<double, int>> ans;
+    map<int, int> m1;
+    map<int, int> m2;
+    for(int i = 1; i <= N; i++){
+        m1[i] = 0;
+        m2[i] = 0;
     }
-    sort(answer.begin(),answer.end(),cmp);
-    for(int i = 0; i < answer.size(); i++)
-    {
-        answer2.push_back(answer[i][1]);
+    for(auto x : stages){
+        for(int i = 1; i <= x; i++){
+            m1[i]++;
+        }
+        m2[x]++;
     }
-    return answer2;
+    for(int i = 1; i <= N; i++){
+        if(m1[i] == 0){
+            ans.push_back({0,i});
+        }else
+            ans.push_back({(double)m2[i]/m1[i],i});
+    }
+    sort(ans.begin(), ans.end(), cmd);
+    for(int i = 0; i < N; i++){
+        answer.push_back(ans[i].second);
+    }
+    return answer;
 }
