@@ -1,33 +1,29 @@
 #include <string>
 #include <vector>
+#include <queue>
 #include <map>
-#include <algorithm>
 using namespace std;
 
 vector<int> solution(vector<string> operations) {
     vector<int> answer;
-    for(auto x: operations){
-        if(x[0] == 'I'){
-            x.erase(x.begin(), x.begin()+1);
-            int a = stoi(x);
-            answer.push_back(a);
-            sort(answer.begin(), answer.end());
-        }else{
-            if(!answer.empty()){
-                if(x.size() == 3){
-                    answer.erase(answer.end()-1,answer.end());
-                }else{
-                    answer.erase(answer.begin(),answer.begin()+1);
-                }
+    map<int, int> m;
+    for(int i = 0; i < operations.size(); i++){
+        char q = operations[i][0];
+        string n = operations[i].substr(2);
+        if(q == 'I'){
+            m[stoi(n)]++;
+        }else if(m.size() > 0){
+            if(n == "1"){
+                m.erase(prev(m.end()));
+            }else{
+                m.erase(m.begin());
             }
         }
     }
-    if(answer.empty()){
+    if(m.size() == 0){
         answer = {0,0};
     }else{
-        int max = answer[answer.size()-1];
-        int min = answer[0];
-        answer = {max, min};
+        answer = {prev(m.end())->first, m.begin()->first};
     }
     return answer;
 }
