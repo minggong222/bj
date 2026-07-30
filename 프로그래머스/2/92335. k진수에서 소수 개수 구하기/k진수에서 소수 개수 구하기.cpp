@@ -1,67 +1,40 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <cmath>
 using namespace std;
-string Asd(int a, int b)
-{
-    string z = "";
-    if(a < b)
-    {
-        z.push_back(a+48);
-        return z;
-    }
-    else
-    {
-        z.push_back(a%b + 48);
-        return Asd(a/b, b) + z;
-    }
-}
+
 int solution(int n, int k) {
     int answer = 0;
-    string a = Asd(n,k);
-    long asd = 0;
-    int i;
-    for(i = 0; i < a.size(); i++)
-    {
-        if(a[i] == '0')
-        {
-            if(asd == 1 || asd == 0)
-            {
-                answer--;
-            }
-            for(int j = 2; j <= sqrt(asd); j++)
-            {
-                if(asd%j == 0)
-                {
-                    answer--;
-                    break;
-                }
-            }
-            answer++;
-            asd = 0;
-        }
-        else{
-            asd = asd*10 + a[i] - 48;
-        }
-            
+    vector<long long> ans;
+    string s = "";
+    while(n){
+        s += to_string(n%k);
+        n/=k;
     }
-    if(a[i-1] != '0')
-    {
-        if(asd == 1 || asd == 0)
-            {
-                answer--;
-            }
-            for(int j = 2; j <= sqrt(asd); j++)
-            {
-                if(asd%j == 0)
-                {
-                    answer--;
-                    break;
-                }
-            }
-            answer++;
-            asd = 0;
+    reverse(s.begin(), s.end());
+    string str = "";
+    for(auto c : s){
+        if(c == '0'){
+            if(str != "")
+                ans.push_back(stol(str));
+            str.clear();
+        }else{
+            str += c;
+        }
     }
-    
+    if(str != "")
+        ans.push_back(stol(str));
+    for(int i = 0; i < ans.size(); i++){
+        bool sw = true;
+        if(ans[i] == 1) sw = false;
+        for(long long j = 2; j <= sqrt(ans[i]); j++){
+            if(ans[i]%j == 0){
+                sw = false;
+                break;
+            }
+        }
+        if(sw)  answer++;
+    }
     return answer;
 }
