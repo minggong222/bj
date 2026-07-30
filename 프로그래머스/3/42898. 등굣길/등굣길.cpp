@@ -1,26 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+
 using namespace std;
 
 int solution(int m, int n, vector<vector<int>> puddles) {
     int answer = 0;
-    vector<vector<long long>> v(n, vector<long long>(m, 0));
-    v[0][0] = 1;
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < m; j++){
-            vector<int> w = {j+1, i+1};
-            if(find(puddles.begin(), puddles.end(),w) 
-               == puddles.end()){
-                v[i][j] = v[i][j]%1000000007;
-                if(j + 1 < m){
-                    v[i][j+1] = v[i][j+1] + v[i][j];
-                }
-                if(i + 1 < n){
-                    v[i+1][j] = v[i+1][j] + v[i][j];
-                }
+    vector<vector<int>> map(n+1, vector<int>(m+1, 0));
+    for(auto x : puddles){
+        map[x[1]][x[0]] = -1;
+    }
+    map[1][1] = 1;
+    for(int i = 1; i <= n; i++){
+        for(int j = 1; j <= m; j++){
+            if(map[i][j] == -1) continue;
+            if(map[i-1][j] != -1){
+                map[i][j] += map[i-1][j];
+                map[i][j] %= 1000000007;
+            }
+            if(map[i][j-1] != -1){
+                map[i][j] += map[i][j-1];
+                map[i][j] %= 1000000007;
             }
         }
     }
-    return v[n-1][m-1];
+    return map[n][m];
 }
