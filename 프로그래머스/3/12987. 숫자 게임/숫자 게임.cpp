@@ -11,7 +11,9 @@ int solution(vector<int> A, vector<int> B) {
         b.push(B[i]);
     }
     while(!a.empty()){
-        if(a.top() < b.top()){
+        int aa = a.top();
+        int bb = b.top();
+        if(aa < bb){
             b.pop();
             answer++;
         }
