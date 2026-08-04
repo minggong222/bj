@@ -1,37 +1,25 @@
 #include <string>
 #include <vector>
-
+#include <set>
 using namespace std;
 
 string solution(string s, string skip, int index) {
     string answer = "";
-    int idx = skip.size();
-    for(auto x: s)
-    {
-        int i = 0;
-        char result = x + 1;
-        if(result > 'z')
-            result -= 26;
-        while(true){
-            for(int j = 0; j < idx; j++){
-                if(result == skip[j]){
-                    result++;
-                    if(result > 'z')
-                        result -= 26;
-                    j = -1;
-                }
-            }
-            i++;
-            if(i != index){
-                result++;
-                if(result > 'z')
-                    result -= 26;
-            }
-            else{
-                break;
+    set<char> S;
+    for(auto c : skip){
+        S.insert(c);
+    }
+    for(int i = 0; i < s.size(); i++){
+        int cnt = 0;
+        int idx = s[i] - 'a';
+        while(cnt != index){
+            idx++;
+            idx%=26;
+            if(S.find('a'+idx) == S.end()){
+                cnt++;
             }
         }
-        answer += result;
+        answer += 'a'+idx;
     }
     return answer;
 }
