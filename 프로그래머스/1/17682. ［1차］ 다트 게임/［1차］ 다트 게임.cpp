@@ -1,55 +1,49 @@
 #include <string>
 #include <vector>
-#include <cmath>
-#include <iostream>
 using namespace std;
 
 int solution(string dartResult) {
     int answer = 0;
-    vector<int> a;
-    int z =0;
-    for(int i = 0; i < dartResult.size(); i++)
-    {
-        if(dartResult[i+1] != '0')
-        {
-            if(dartResult[i+1] == 'S')
-                a.push_back(pow(dartResult[i]-48,1));
-            else if(dartResult[i+1] == 'D')
-                a.push_back(pow(dartResult[i]-48,2));
-            else if(dartResult[i+1] == 'T')
-                a.push_back(pow(dartResult[i]-48,3));
+    vector<int> p(3);
+    vector<char> d(3);
+    vector<char> s(3);
+    int idx = 0;
+    for(int i = 0; i < 3; i++){
+        if(!isdigit(dartResult[idx+1])){
+            string s = "";
+            s += dartResult[idx];
+            p[i] = stoi(s);
         }else{
-            i++;
-            if(dartResult[i+1] == 'S')
-                a.push_back(pow(10,1));
-            else if(dartResult[i+1] == 'D')
-                a.push_back(pow(10,2));
-            else if(dartResult[i+1] == 'T')
-                a.push_back(pow(10,3));
+            string s = "";
+            s += dartResult[idx];
+            s += dartResult[++idx];
+            p[i] = stoi(s);
         }
-        if(i+2 < dartResult.size())
-        {
-            if(dartResult[i+2] == '*')
-            {
-                if(i == 0)
-                    a[z] = a[z]*2;
-                else
-                {
-                    a[z-1] = a[z-1]*2;
-                    a[z] = a[z]*2;
-                }
-                i = i+2;
-            }else if(dartResult[i+2] == '#')
-            {
-                a[z] = -a[z];
-                i = i+2;
+        d[i] = dartResult[++idx];
+        idx++;
+        if(idx < dartResult.size()){
+            if(dartResult[idx] == '*' || dartResult[idx] == '#'){
+                s[i] = dartResult[idx++];
             }else{
-                i = i+1;
+                s[i] = '-';
             }
         }
-        z++;
     }
-    for(auto x: a)
-        answer += x;
+    for(int i = 0; i < 3; i++){
+        if(d[i] == 'D'){
+            p[i] = p[i]*p[i];
+        }else if(d[i] == 'T'){
+            p[i] = p[i]*p[i]*p[i];
+        }
+        if(s[i] == '*'){
+            p[i] *= 2;
+            if(i-1 >= 0){
+                p[i-1] *= 2;
+            }
+        }else if(s[i] == '#'){
+            p[i] *= -1;
+        }
+    }
+    answer = p[0]+p[1]+p[2];
     return answer;
 }
