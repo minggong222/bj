@@ -1,47 +1,32 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <map>
+#include <queue>
 using namespace std;
-bool cmp(char a, char b)
-{ return (a > b); }
+
 string solution(string X, string Y) {
     string answer = "";
-    vector<int> a(10, 0);
-    vector<int> b(10, 0);
-    int i = 0;
-    int xs = X.size();
-    int ys = Y.size();
-    while(1)
-    {
-        if(ys <= i && xs <= i)
-            break;
-        if(xs > i)
-            a[X[i] - 48]++;
-        if(ys > i)
-            b[Y[i] - 48]++;
-        i++;
+    map<char,int> m;
+    priority_queue<int> pq;
+    for(auto x : X){
+        m[x]++;
     }
-    i = 9;
-    while(1)
-    {
-        while(1)
-        {
-            if(a[i] > 0 && b[i] > 0)
-            {
-                answer.push_back(i + 48);
-                a[i]--;
-                b[i]--;
-            }
-            else
-                break;
+    for(auto y : Y){
+        if(m[y] > 0){
+            pq.push((y-'0'));
         }
-        if(i == 0)
-            break;
-        i--;
+        m[y]--;
     }
-    if(answer.size() == 0)
-        return "-1";
-    else if(answer[0] == '0')
-        return "0";
+    if(pq.empty())  return "-1";
+    else{
+        while(!pq.empty()){
+            answer += to_string(pq.top());
+            pq.pop();
+        }
+    }
+    for(auto x : answer){
+        if(x != '0')    return answer;
+    }
+    answer = "0";
     return answer;
 }
