@@ -1,36 +1,33 @@
 #include <string>
 #include <vector>
-
+#include <stack>
 using namespace std;
 
 int solution(vector<int> ingredient) {
     int answer = 0;
-    bool sw = true;
-    int idx;
-    int j = 0;
-    while(sw)
-    {
-        int i;
-        idx  = ingredient.size();
-        for(i = j; i < idx; i++)
-        {
-            if(i + 3 < idx && ingredient[i] == 1 && ingredient[i+1] == 2 && ingredient[i+2] == 3                                && ingredient[i + 3] == 1)
-            {
-                ingredient.erase(ingredient.begin() + i,ingredient.begin() + i + 4);
-                answer++;
-                if(i - 4 >= 0)
-                    j = i-4;
-                else if(i -3 >= 0)
-                    j = i-3;
-                else if(i - 2 >= 0)
-                    j = i-2;
-                else if(i - 1 >= 0)
-                    j = i-1;
-                break;
+    stack<int> s;
+    for(auto x : ingredient){
+        if(x == 3){
+            if(!s.empty() && s.top() == 2){
+                s.push(x);
+            }else{
+                while(!s.empty()) s.pop();
             }
+        }else if(x == 2){
+            if(!s.empty() && s.top() == 1){
+                s.push(x);
+            }else{
+                while(!s.empty()) s.pop();
+            }
+        }else{
+            if(!s.empty() && s.top() == 3){
+                s.pop();
+                s.pop();
+                s.pop();
+                answer++;
+            }else
+                s.push(x);
         }
-        if(i >= idx)
-            return answer;
     }
     return answer;
 }
