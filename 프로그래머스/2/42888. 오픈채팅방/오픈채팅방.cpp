@@ -1,39 +1,49 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <sstream>
 using namespace std;
 
 vector<string> solution(vector<string> record) {
     vector<string> answer;
     map<string, string> m;
-    vector<vector<string>> vv;
-    for(int i = 0; i < record.size(); i++){
-        istringstream ss(record[i]);
-        string s;
-        vector<string> v;
-        while(getline(ss,s,' ')){
-            v.push_back(s);
-        }
-        if(m.find(v[1]) == m.end()){
-            m.insert(make_pair(v[1],v[2]));
-        }else{
-            if(v[0] == "Change"){
-                m[v[1]] = v[2];
-            }else if(v[0] == "Enter"){
-                m[v[1]] = v[2];
+    vector<pair<string, bool>> v;
+    for(auto s : record){
+        int idx = 0;
+        vector<string> str(3, "");
+        for(int i = 0; i < s.size(); i++){
+            if(s[i] == ' '){
+                idx = i + 1;
+                break;
+            }else{
+                str[0] += s[i];
             }
         }
-        vv.push_back(v);
-    }
-    for(int i = 0; i < vv.size(); i++){
-        if(vv[i][0] == "Enter"){
-            string s = m[vv[i][1]] + "님이 들어왔습니다.";
-            answer.push_back(s);
+        for(int i = idx; i < s.size(); i++){
+            if(s[i] == ' '){
+                idx = i + 1;
+                break;
+            }else{
+                str[1] += s[i];
+            }
         }
-        else if(vv[i][0] == "Leave"){
-            string s = m[vv[i][1]] + "님이 나갔습니다.";
-            answer.push_back(s);
+        for(int i = idx; i < s.size(); i++)
+            str[2] += s[i];
+        if(str[0] == "Enter"){
+            v.push_back({str[1], true});
+            m[str[1]] = str[2];
+        }else if(str[0] == "Leave"){
+            v.push_back({str[1], false});
+        }else{
+            m[str[1]] = str[2];
+        }
+    }
+    for(int i = 0; i < v.size(); i++){
+        if(v[i].second){
+            answer.push_back(m[v[i].first]);
+            answer[i] += "님이 들어왔습니다.";
+        }else{
+            answer.push_back(m[v[i].first]);
+            answer[i] += "님이 나갔습니다.";
         }
     }
     return answer;
