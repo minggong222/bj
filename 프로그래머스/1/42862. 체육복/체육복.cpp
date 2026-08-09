@@ -1,50 +1,41 @@
 #include <string>
 #include <vector>
+#include <queue>
 #include <algorithm>
-#include <iostream>
 using namespace std;
 
 int solution(int n, vector<int> lost, vector<int> reserve) {
-    int answer = 0;
-    int z = 0;
-    int a = lost.size();
-    answer = n - a;
-    int i = 0;
-    sort(lost.begin(),lost.end());
-    sort(reserve.begin(), reserve.end());
-    while(true)
-    {
-        if(i == reserve.size())
-            break;
-        for(int j = 0; j < lost.size(); j++)
-        {
-            if(reserve[i] == lost[j])
-            {
-                reserve.erase(reserve.begin() + i);
-                lost.erase(lost.begin() + j);
+    int answer = n - lost.size();
+    priority_queue<int> pq1, pq2;
+    for(int i = 0; i < lost.size(); i++){
+        for(int j = 0; j < reserve.size(); j++){
+            if(lost[i] == reserve[j]){
+                lost.erase(lost.begin() + i);
+                reserve.erase(reserve.begin() + j);
                 i--;
-                j = lost.size();
-            }
-         }
-        i++;
-    }
-    i = 0;
-    while(true)
-    {
-        if(i == reserve.size())
-            break;
-        for(int j = 0; j < lost.size(); j++)
-        {
-            if(reserve[i] - lost[j] == -1 || reserve[i] - lost[j] == 1)
-            {
-                reserve.erase(reserve.begin() + i);
-                lost.erase(lost.begin() + j);
-                i--;
-                j = lost.size();
+                answer++;
+                break;
             }
         }
-        i++;
     }
-    a = a - lost.size();
-    return answer + a;
+    for(auto x : lost){
+        pq1.push(x);
+    }
+    for(auto x : reserve){
+        pq2.push(x);
+    }
+    while(!pq1.empty() && !pq2.empty()){
+        if(abs(pq1.top() - pq2.top()) <= 1){
+            answer++;
+            pq1.pop();
+            pq2.pop();
+            continue;
+        }
+        if(pq1.top() < pq2.top()){
+            pq2.pop();
+        }else{
+            pq1.pop();
+        }
+    }
+    return answer;
 }
