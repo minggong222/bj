@@ -1,23 +1,28 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 using namespace std;
 
 int solution(int n, vector<int> stations, int w)
 {
     int answer = 0;
-   queue<int> q;
-    for(int i = 0; i < stations.size(); i++){
-        q.push(stations[i]);
-    }
-    for(int i = 0; i < n;){
-        if(i < q.front() + w && i >= q.front() - 1 - w){
-            i = q.front() + w;
-            q.pop();
+    int idx = 0;
+    for(int i = 1; i <= n; i++){
+        if(idx < stations.size()){
+            int a = i;
+            while(a < stations[idx] - w){
+                answer++;
+                a = a+w+w+1;
+            }
+            i = stations[idx++] + w;
         }else{
-            i = i + w + w + 1;
-            answer++;
+            int a = i;
+            while(a <= n){
+                answer++;
+                a = a+w+w+1;
+            }
+            break;
         }
     }
+
     return answer;
 }
