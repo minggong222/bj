@@ -3,19 +3,15 @@
 
 using namespace std;
 
-unsigned int solution(int n) {
-    if(n == 1)
-        return 1;
-    if(n == 2)
-        return 2;
-    unsigned int a = 1;
-    unsigned int b = 2;
-    unsigned int c = 0;
-    for(int i = 0; i < n - 2; ++i)
-    {
-        c = (a + b) % 1000000007;
-        a = b;
-        b = c;
+int solution(int n) {
+    int answer = 0;
+    vector<int> dp(60001, 0);
+    dp[1] = 1;
+    dp[2] = 2;
+    for(int i = 3; i <= n; i++){
+        dp[i] = dp[i-1] + dp[i-2];
+        dp[i] %= 1000000007;
     }
-    return c;
+    answer = dp[n];
+    return answer;
 }
