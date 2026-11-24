@@ -1,6 +1,6 @@
 # [Diamond V] 라면 사기 (Small) - 18185 
 
-[문제 링크](https://www.acmicpc.net/problem/18185) 
+[문제 링크](https://acmicpc.net/problem/18185) 
 
 ### 성능 요약
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-그리디 알고리즘
+그리디
 
 ### 제출 일자
 
